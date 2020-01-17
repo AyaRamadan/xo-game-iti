@@ -39,6 +39,7 @@ public class listViewController implements Initializable {
         listOfPlayers.setItems(items);
 //        listOfPlayers.getItems().add("hhh");
     }
+    
 
     @FXML
     public void handleMouseClick(MouseEvent arg0) {

@@ -159,7 +159,8 @@ public class RegisterationController extends Thread implements Initializable {
             try {
 
 //                System.out.println(serverIp);
-                s = new Socket("127.0.0.1", 5005);
+                s = new Socket(serverIp
+                        , 5005);
 
                 dis = new DataInputStream(s.getInputStream());
                 String reply = dis.readLine();
