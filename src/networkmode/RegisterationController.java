@@ -11,12 +11,14 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
+import java.util.ArrayList;
 
 import java.util.Optional;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,10 +29,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+//import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+//import listview.listViewController;
+//import static listview.listViewController.listOfPlayers;
+import static networkmode.listViewController.items;
+//import static networkmode.FXMLDocumentBase.listView;
+//import static networkmode.Listview2Controller.listView;
 import tec_tac_toe.Home;
 
 /**
@@ -62,7 +69,7 @@ public class RegisterationController extends Thread implements Initializable {
     Socket s;
     DataInputStream dis;
     PrintStream ps;
-
+    public static ArrayList<String> onlineUsers = new ArrayList<String>();
     String serverIp;
     FXMLLoader fxmlLoader;
     Parent root;
@@ -91,7 +98,8 @@ public class RegisterationController extends Thread implements Initializable {
 
         Go.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-
+                
+                
                 if (UserName.getText() != null && Password.getText() != null) {
 
                     if (!(UserName.getText().contains(".")) || !(Password.getText().contains("."))) {
@@ -118,7 +126,6 @@ public class RegisterationController extends Thread implements Initializable {
                         }
                     } else {
                         label.setText("(.)charcter is not allowed");
-
                     }
                 }
             }
@@ -159,13 +166,19 @@ public class RegisterationController extends Thread implements Initializable {
             try {
 
 //                System.out.println(serverIp);
-                s = new Socket(serverIp
+
+                s = new Socket("127.0.0.1"
                         , 5005);
+
 
                 dis = new DataInputStream(s.getInputStream());
                 String reply = dis.readLine();
-                if (reply.equals("valid")) {
-                    System.out.println("valid :D");
+                String[] msg = reply.split("[.]");
+                
+                if (msg[0].equals("active")) {
+                    System.out.println("activeeee");
+                    onlineUsers.add(msg[2]);
+                    items.add(onlineUsers.get(onlineUsers.size()-1));
                 }
 
             } catch (IOException ex) {
