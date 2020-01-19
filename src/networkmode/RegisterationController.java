@@ -8,17 +8,13 @@ package networkmode;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 
-import java.util.Optional;
-
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,15 +25,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import listview.listViewController;
-import static listview.listViewController.listOfPlayers;
 import static networkmode.listViewController.items;
-//import static networkmode.FXMLDocumentBase.listView;
-//import static networkmode.Listview2Controller.listView;
 import tec_tac_toe.Home;
 
 /**
@@ -66,14 +57,16 @@ public class RegisterationController extends Thread implements Initializable {
     @FXML
     private Label label;
 
-    Socket s;
-    DataInputStream dis;
-    PrintStream ps;
+    public static Socket s;
+    public static DataInputStream dis;
+    public static PrintStream ps;
     public static ArrayList<String> onlineUsers = new ArrayList<String>();
     String serverIp;
     FXMLLoader fxmlLoader;
     Parent root;
     Stage stage;
+    boolean valid = false;
+    String user;
 
     /**
      * Initializes the controller class.
@@ -95,32 +88,18 @@ public class RegisterationController extends Thread implements Initializable {
 //        }
         serverIp = Home.serverIp;
         th.start();
-
         Go.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event) {
-                
-                
                 if (UserName.getText() != null && Password.getText() != null) {
-
+                    user=UserName.getText();
                     if (!(UserName.getText().contains(".")) || !(Password.getText().contains("."))) {
                         try {
                             ps = new PrintStream(s.getOutputStream());
                             ps.println("login" + "." + UserName.getText() + "." + Password.getText());
+                            System.out.println(Password.getText());
                             UserName.clear();
                             Password.clear();
-                            try {
-
-                                fxmlLoader = new FXMLLoader(getClass().getResource("listView.fxml"));
-                                root = (Parent) fxmlLoader.load();
-                                stage = new Stage();
-                                stage.initModality(Modality.APPLICATION_MODAL);
-                                stage.setTitle("Active users");
-                                stage.setScene(new Scene(root));
-                                stage.setResizable(false);
-                                stage.show();
-                            } catch (IOException ex) {
-                                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                            }
                         } catch (IOException ex) {
                             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -128,16 +107,30 @@ public class RegisterationController extends Thread implements Initializable {
                         label.setText("(.)charcter is not allowed");
                     }
                 }
+                try {
+                        fxmlLoader = new FXMLLoader(getClass().getResource("listView.fxml"));
+                        root = (Parent) fxmlLoader.load();
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Active users");
+                        stage.setScene(new Scene(root));
+                        stage.setResizable(false);
+                        stage.show();
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         register.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event) {
-
+                    
                 if (UserName.getText() != null && Password.getText() != null) {
                     label.setVisible(false);
                     String user = UserName.getText();
                     String pass = Password.getText();
-                    if (user.indexOf(".") == -1 && pass.indexOf(".") == -1) {
+                    if (!user.contains(".") && !pass.contains(".")) {
                         try {
                             ps = new PrintStream(s.getOutputStream());
                             ps.println("register" + "." + UserName.getText() + "." + Password.getText());
@@ -156,37 +149,33 @@ public class RegisterationController extends Thread implements Initializable {
                 }
             }
         });
-
     }
 
     @Override
     public void run() {
-
         while (true) {
             try {
-
-//                System.out.println(serverIp);
                 s = new Socket(serverIp, 5005);
-
                 dis = new DataInputStream(s.getInputStream());
                 String reply = dis.readLine();
                 String[] msg = reply.split("[.]");
-                
                 if (msg[0].equals("active")) {
                     System.out.println("activeeee");
-                    onlineUsers.add(msg[2]);
-                    items.add(onlineUsers.get(onlineUsers.size()-1));
-                }
-
+                    items.clear();
+                    items.add(msg[2]);
+                    items.remove(user);
+                } 
+//                else if (msg[0].equals("valid")) {
+//                    System.out.println("valid");
+//                    valid=true;
+//                    Go.fire();
+//                }
             } catch (IOException ex) {
                 //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
 //              TextArea.clear();
 //              TextArea.setText("Server is disconnected...");
 //              break;
             }
-
-//            10.140.200.207
         }
     }
-
 }
