@@ -108,19 +108,19 @@ public class RegisterationController extends Thread implements Initializable {
                             ps.println("login" + "." + UserName.getText() + "." + Password.getText());
                             UserName.clear();
                             Password.clear();
-                            try {
-
-                                fxmlLoader = new FXMLLoader(getClass().getResource("listView.fxml"));
-                                root = (Parent) fxmlLoader.load();
-                                stage = new Stage();
-                                stage.initModality(Modality.APPLICATION_MODAL);
-                                stage.setTitle("Active users");
-                                stage.setScene(new Scene(root));
-                                stage.setResizable(false);
-                                stage.show();
-                            } catch (IOException ex) {
-                                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+//                            try {
+//
+//                                fxmlLoader = new FXMLLoader(getClass().getResource("listView.fxml"));
+//                                root = (Parent) fxmlLoader.load();
+//                                stage = new Stage();
+//                                stage.initModality(Modality.APPLICATION_MODAL);
+//                                stage.setTitle("Active users");
+//                                stage.setScene(new Scene(root));
+//                                stage.setResizable(false);
+//                                stage.show();
+//                            } catch (IOException ex) {
+//                                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//                            }
                         } catch (IOException ex) {
                             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
                         }
