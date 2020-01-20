@@ -101,7 +101,6 @@ public class listViewController implements Initializable {
 //        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
 //    }
     public void handleMouseClick(MouseEvent arg0) {
-
         try {
             player=listOfPlayers.getSelectionModel().getSelectedItem();
             ps = new PrintStream(s.getOutputStream());

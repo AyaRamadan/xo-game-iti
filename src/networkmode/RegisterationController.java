@@ -35,14 +35,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import tec_tac_toe.Home;
+import static tec_tac_toe.Home.serverIp;
 
 /**
  * FXML Controller class
  *
  * @author Mina
  */
+
+
 public class RegisterationController extends Thread implements Initializable {
 
     @FXML
@@ -68,8 +70,9 @@ public class RegisterationController extends Thread implements Initializable {
     public static DataInputStream dis;
     public static PrintStream ps;
     public static ArrayList<String> onlineUsers = new ArrayList<String>();
+ 
     public static boolean firingRefreshButton = false;
-    String serverIp;
+    String serverIp ;
     FXMLLoader fxmlLoader;
     Parent root;
     Stage stage;
@@ -105,8 +108,6 @@ public class RegisterationController extends Thread implements Initializable {
                     System.out.println(user);
                     if (!(UserName.getText().contains(".")) || !(Password.getText().contains("."))) {
                         user = UserName.getText();
-                        firingRefreshButton = true;
-
                         try {
                             ps = new PrintStream(s.getOutputStream());
                             ps.println("login" + "." + UserName.getText() + "." + Password.getText());
@@ -175,7 +176,6 @@ public class RegisterationController extends Thread implements Initializable {
                 String reply = dis.readLine();
                 System.out.println(reply);
                 onlineUsers = new ArrayList(Arrays.asList(reply.split("[.]")));
-
                 for (int i = 0; i < onlineUsers.size(); i++) {
                     System.out.println(onlineUsers.get(i));
                 }
@@ -188,19 +188,20 @@ public class RegisterationController extends Thread implements Initializable {
                     });
                 } else if (onlineUsers.get(0).equals("request")) {
                     if (onlineUsers.get(1).equals(user)) {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setResizable(true);
-                        Label label1 = new Label("Please Enter server ip address");
-                        TextField textField = new TextField();
-                        HBox hb = new HBox();
-                        hb.getChildren().addAll(label1, textField);
-                        alert.setTitle("Enter server ip");
-//                        alert.setDialogPane(hb);
-                        alert.getDialogPane().setMinHeight(100);
-                        alert.getDialogPane().setMinWidth(100);
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setResizable(true);
+//                            Label label1 = new Label("Please Enter server ip address");
+//                            TextField textField = new TextField();
+//                            HBox hb = new HBox();
+//                            hb.getChildren().addAll(label1, textField);
+                            alert.setTitle("Enter server ip");
+//                            alert.setDialogPane(hb);
+                            alert.getDialogPane().setMinHeight(100);
+                            alert.getDialogPane().setMinWidth(100);
+                        });
                     }
                 }
-
             } catch (IOException ex) {
                 //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
 //              TextArea.clear();
