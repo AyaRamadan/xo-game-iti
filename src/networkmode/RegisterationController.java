@@ -33,7 +33,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-//import static networkmode.listViewController.items;
+
+
 import tec_tac_toe.Home;
 
 /**
@@ -66,6 +67,7 @@ public class RegisterationController extends Thread implements Initializable {
     public static DataInputStream dis;
     public static PrintStream ps;
     public static ArrayList<String> onlineUsers = new ArrayList<String>();
+    public static boolean firingRefreshButton=false;
     String serverIp;
     FXMLLoader fxmlLoader;
     Parent root;
@@ -98,15 +100,19 @@ public class RegisterationController extends Thread implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 if (UserName.getText() != null && Password.getText() != null) {
-                    user = UserName.getText();
+
+                    
+                    System.out.println(user);
                     if (!(UserName.getText().contains(".")) || !(Password.getText().contains("."))) {
+                        user=UserName.getText();
+                        firingRefreshButton=true;
 
                         try {
                             ps = new PrintStream(s.getOutputStream());
                             ps.println("login" + "." + UserName.getText() + "." + Password.getText());
-                            System.out.println(Password.getText());
                             UserName.clear();
                             Password.clear();
+
 
                         } catch (IOException ex) {
                             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,14 +122,16 @@ public class RegisterationController extends Thread implements Initializable {
                     }
                 }
                 try {
-                    fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
-                    root = (Parent) fxmlLoader.load();
-                    stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setTitle("Active users");
-                    stage.setScene(new Scene(root));
-                    stage.setResizable(false);
-                    stage.show();
+
+                        fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
+                        root = (Parent) fxmlLoader.load();
+                        stage = new Stage();
+                        stage.initModality(Modality.APPLICATION_MODAL);
+                        stage.setTitle("Active users");
+                        stage.setScene(new Scene(root));
+                        stage.setResizable(false);
+                        stage.show();
+                    
 
                 } catch (IOException ex) {
                     Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
@@ -169,21 +177,18 @@ public class RegisterationController extends Thread implements Initializable {
                 String reply = dis.readLine();
                 System.out.println(reply);
                 onlineUsers = new ArrayList(Arrays.asList(reply.split("[.]")));
-                for (int i = 0; i < onlineUsers.size(); i++) {
-//                    System.out.println(onlineUsers.get(i));
+
+                for(int i=0;i<onlineUsers.size();i++){
+                        System.out.println(onlineUsers.get(i));          
                 }
                 if (onlineUsers.get(0).equals("active")) {
+                    Platform.runLater(() ->{   
                     items.clear();
-//                    onlineUsers.clear();
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            items.addAll(onlineUsers);
-                            items.remove("active");
-                        }
-                    });
-//                    items.remove(user);
-                }
+                    items.addAll(onlineUsers);
+                    items.remove(user);
+                    items.remove("active");
+                     });
+                } 
 
             } catch (IOException ex) {
                 //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
