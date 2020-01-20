@@ -43,6 +43,11 @@ public class listViewController implements Initializable {
     @FXML
     private Button refresh;
 
+//    @FXML
+//    public void handleMouseClick(MouseEvent arg0) {
+//
+//        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+//    }
     /**
      * Initializes the controller class.
      */
@@ -55,7 +60,6 @@ public class listViewController implements Initializable {
         for (String item : items) {
             System.out.println(item);
         }
-
 
         listOfPlayers.setItems(items);
 
@@ -74,12 +78,28 @@ public class listViewController implements Initializable {
 
             }
         });
+
 //        if(firingRefreshButton==true){
 //            refresh.fire();
 //        }
+//        System.out.println(listOfPlayers.getSelectionModel().getSelectedItem());
+//        listOfPlayers.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//
+//            @Override
+//
+//            public void handle(MouseEvent event) {
+//                System.out.println("hello");
+//                System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+//            }
+//        });
     }
 
-    public void handleMouseClick(MouseEvent arg0) {
+//    public void handleMouseClick(MouseEvent arg0) {
+//
 //        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+//    }
+    public void handleMouseClick(MouseEvent arg0) {
+
+        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
     }
 }
