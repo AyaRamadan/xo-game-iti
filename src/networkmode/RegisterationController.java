@@ -26,14 +26,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 
 import tec_tac_toe.Home;
 
@@ -67,13 +68,13 @@ public class RegisterationController extends Thread implements Initializable {
     public static DataInputStream dis;
     public static PrintStream ps;
     public static ArrayList<String> onlineUsers = new ArrayList<String>();
-    public static boolean firingRefreshButton=false;
+    public static boolean firingRefreshButton = false;
     String serverIp;
     FXMLLoader fxmlLoader;
     Parent root;
     Stage stage;
     boolean valid = false;
-    String user;
+    public static String user;
     public static ObservableList<String> items = FXCollections.observableArrayList();
 
     /**
@@ -101,18 +102,16 @@ public class RegisterationController extends Thread implements Initializable {
             public void handle(ActionEvent event) {
                 if (UserName.getText() != null && Password.getText() != null) {
 
-                    
                     System.out.println(user);
                     if (!(UserName.getText().contains(".")) || !(Password.getText().contains("."))) {
-                        user=UserName.getText();
-                        firingRefreshButton=true;
+                        user = UserName.getText();
+                        firingRefreshButton = true;
 
                         try {
                             ps = new PrintStream(s.getOutputStream());
                             ps.println("login" + "." + UserName.getText() + "." + Password.getText());
                             UserName.clear();
                             Password.clear();
-
 
                         } catch (IOException ex) {
                             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
@@ -123,15 +122,14 @@ public class RegisterationController extends Thread implements Initializable {
                 }
                 try {
 
-                        fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
-                        root = (Parent) fxmlLoader.load();
-                        stage = new Stage();
-                        stage.initModality(Modality.APPLICATION_MODAL);
-                        stage.setTitle("Active users");
-                        stage.setScene(new Scene(root));
-                        stage.setResizable(false);
-                        stage.show();
-                    
+                    fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
+                    root = (Parent) fxmlLoader.load();
+                    stage = new Stage();
+                    stage.initModality(Modality.APPLICATION_MODAL);
+                    stage.setTitle("Active users");
+                    stage.setScene(new Scene(root));
+                    stage.setResizable(false);
+                    stage.show();
 
                 } catch (IOException ex) {
                     Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
@@ -178,17 +176,30 @@ public class RegisterationController extends Thread implements Initializable {
                 System.out.println(reply);
                 onlineUsers = new ArrayList(Arrays.asList(reply.split("[.]")));
 
-                for(int i=0;i<onlineUsers.size();i++){
-                        System.out.println(onlineUsers.get(i));          
+                for (int i = 0; i < onlineUsers.size(); i++) {
+                    System.out.println(onlineUsers.get(i));
                 }
                 if (onlineUsers.get(0).equals("active")) {
-                    Platform.runLater(() ->{   
-                    items.clear();
-                    items.addAll(onlineUsers);
-                    items.remove(user);
-                    items.remove("active");
-                     });
-                } 
+                    Platform.runLater(() -> {
+                        items.clear();
+                        items.addAll(onlineUsers);
+                        items.remove(user);
+                        items.remove("active");
+                    });
+                } else if (onlineUsers.get(0).equals("request")) {
+                    if (onlineUsers.get(1).equals(user)) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setResizable(true);
+                        Label label1 = new Label("Please Enter server ip address");
+                        TextField textField = new TextField();
+                        HBox hb = new HBox();
+                        hb.getChildren().addAll(label1, textField);
+                        alert.setTitle("Enter server ip");
+//                        alert.setDialogPane(hb);
+                        alert.getDialogPane().setMinHeight(100);
+                        alert.getDialogPane().setMinWidth(100);
+                    }
+                }
 
             } catch (IOException ex) {
                 //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
