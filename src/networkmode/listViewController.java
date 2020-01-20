@@ -20,7 +20,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import static networkmode.RegisterationController.dis;
+
+import static networkmode.RegisterationController.firingRefreshButton;
 import static networkmode.RegisterationController.items;
+
 import static networkmode.RegisterationController.onlineUsers;
 import static networkmode.RegisterationController.ps;
 import static networkmode.RegisterationController.s;
@@ -40,6 +43,11 @@ public class listViewController implements Initializable {
     @FXML
     private Button refresh;
 
+//    @FXML
+//    public void handleMouseClick(MouseEvent arg0) {
+//
+//        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+//    }
     /**
      * Initializes the controller class.
      */
@@ -48,37 +56,50 @@ public class listViewController implements Initializable {
 //        for(int i=0; i<items.length();i++){
 //            
 //        }
-//        for (String item : items) {
-//            System.out.println(item);
-//        }
+
+        for (String item : items) {
+            System.out.println(item);
+        }
+
         listOfPlayers.setItems(items);
 
         refresh.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-//                System.out.println("refresh");
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
 
-                            ps = new PrintStream(s.getOutputStream());
-                            onlineUsers.clear();
-                            ps.println("refresh" + "." + "null" + "." + "null");
-                            listOfPlayers.setItems(items);
-//                    for (String item : items) {
-//                        System.out.println(item);
-//                    }
-                        } catch (IOException ex) {
-                            Logger.getLogger(listViewController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                });
+                System.out.println("refresh");
+                try {
+                    onlineUsers.clear();
+                    ps = new PrintStream(s.getOutputStream());
+                    ps.println("refresh" + "." + "null" + "." + "null");
+                } catch (IOException ex) {
+                    Logger.getLogger(listViewController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
+
+//        if(firingRefreshButton==true){
+//            refresh.fire();
+//        }
+//        System.out.println(listOfPlayers.getSelectionModel().getSelectedItem());
+//        listOfPlayers.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//
+//            @Override
+//
+//            public void handle(MouseEvent event) {
+//                System.out.println("hello");
+//                System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+//            }
+//        });
     }
 
-    public void handleMouseClick(MouseEvent arg0) {
+//    public void handleMouseClick(MouseEvent arg0) {
+//
 //        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+//    }
+    public void handleMouseClick(MouseEvent arg0) {
+
+        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
     }
 }
