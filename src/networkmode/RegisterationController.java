@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -175,18 +176,28 @@ public class RegisterationController extends Thread implements Initializable {
                         items.remove("active");
                     });
                 } else if (onlineUsers.get(0).equals("request")) {
-                   if (onlineUsers.get(1).equals(user)) {
+                    if (onlineUsers.get(1).equals(user)) {
                         Platform.runLater(() -> {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK, ButtonType.CANCEL);
                             alert.setResizable(true);
                             alert.setTitle("request to play");
-                            ButtonType yesButton = new ButtonType("Yes");
-                            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-                            alert.getButtonTypes().setAll(yesButton, cancelButton);
+                            alert.setContentText(onlineUsers.get(1) + "a user wants to play with you");
+//                            ButtonType yesButton = new ButtonType("Yes");
+//                            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+//                            alert.getButtonTypes().setAll(yesButton, cancelButton);
                             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                            
-                            alert.show();
+//                            alert.show();
+                            Optional<ButtonType> result = alert.showAndWait();
+//                            if (!result.isPresent()) // alert is exited, no button has been pressed.
+//                            {
+                            if (result.get() == ButtonType.OK) {
+                                System.out.println("ok");
+
+                            }
+                            if (result.get() == ButtonType.CANCEL) {
+                                System.out.println("CANCEL");
+                            }
+//                            }
                         });
                     }
                 } else if (onlineUsers.get(0).equals("valid")) {
@@ -206,10 +217,7 @@ public class RegisterationController extends Thread implements Initializable {
                     });
                 }
             } catch (IOException ex) {
-                //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-//              TextArea.clear();
-//              TextArea.setText("Server is disconnected...");
-//              break;
+
             }
         }
     }
