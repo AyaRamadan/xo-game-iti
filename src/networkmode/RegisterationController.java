@@ -35,6 +35,7 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import tec_tac_toe.Home;
@@ -190,12 +191,14 @@ public class RegisterationController extends Thread implements Initializable {
                     if (onlineUsers.get(1).equals(user)) {
                         Platform.runLater(() -> {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            
                             alert.setResizable(true);
                             alert.setTitle("request to play");
                             ButtonType yesButton = new ButtonType("Yes");
-//                            ButtonType noButton = new ButtonType("No");
                             ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
                             alert.getButtonTypes().setAll(yesButton, cancelButton);
+                            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                            
                             alert.show();
                         });
                     }
