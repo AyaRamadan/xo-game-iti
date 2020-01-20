@@ -126,6 +126,9 @@ public class RegisterationController extends Thread implements Initializable {
                     } else {
                         label.setText("(.)charcter is not allowed");
                     }
+                }else if(UserName.getText() == null || Password.getText() == null){
+                    label.setVisible(true);
+                    label.setText("You Must Insert Username And Password");
                 }
 
             }
