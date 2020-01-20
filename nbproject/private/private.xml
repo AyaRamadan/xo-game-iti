@@ -2,6 +2,9 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
+        <group/>
+=======
         <group>
 <<<<<<< HEAD
             <file>file:/D:/open%20source/java/project/team/Tec_Tac_Toe/Tec_Tac_Toe/src/tec_tac_toe/Tec_Tac_Toe.java</file>
@@ -12,5 +15,6 @@
             <file>file:/D:/ITI/Java/XO/XO/src/networkmode/RegisterationController.java</file>
 >>>>>>> 2840643724e2e7c07fdda47fae960ad56ef94da0
         </group>
+>>>>>>> b8a7b18d0cc5583ac2e3145ce703bb1d599a330a
     </open-files>
 </project-private>

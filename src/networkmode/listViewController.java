@@ -27,6 +27,7 @@ import static networkmode.RegisterationController.items;
 import static networkmode.RegisterationController.onlineUsers;
 import static networkmode.RegisterationController.ps;
 import static networkmode.RegisterationController.s;
+import static networkmode.RegisterationController.user;
 
 /**
  * FXML Controller class
@@ -42,6 +43,7 @@ public class listViewController implements Initializable {
 //    public static ObservableList<String> items = FXCollections.observableArrayList();
     @FXML
     private Button refresh;
+    String player;
 
 //    @FXML
 //    public void handleMouseClick(MouseEvent arg0) {
@@ -99,7 +101,13 @@ public class listViewController implements Initializable {
 //        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
 //    }
     public void handleMouseClick(MouseEvent arg0) {
-
-        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
+        try {
+            player=listOfPlayers.getSelectionModel().getSelectedItem();
+            ps = new PrintStream(s.getOutputStream());
+            ps.println("request" + "." + player + "." + user);
+            System.out.println(player);
+        } catch (IOException ex) {
+            Logger.getLogger(listViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
