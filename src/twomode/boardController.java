@@ -196,5 +196,6 @@ public class boardController implements Initializable {
             winner();
             xTurn = true;
         }
+        
     }
 }

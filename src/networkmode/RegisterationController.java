@@ -39,6 +39,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import static networkmode.onlineBoard.boardButtons;
 import tec_tac_toe.Home;
 import static tec_tac_toe.Home.serverIp;
 
@@ -80,6 +81,9 @@ public class RegisterationController extends Thread implements Initializable {
     Stage stage;
     boolean valid = false;
     public static String user;
+    public static String buttonid;
+    public static String buttonVal;
+
     public static ObservableList<String> items = FXCollections.observableArrayList();
 
     /**
@@ -191,7 +195,27 @@ public class RegisterationController extends Thread implements Initializable {
 //                            if (!result.isPresent()) // alert is exited, no button has been pressed.
 //                            {
                             if (result.get() == ButtonType.OK) {
-                                System.out.println("ok");
+                                try {
+                                    System.out.println("ok");
+                                    ps = new PrintStream(s.getOutputStream());
+                                    ps.println("accept" + "." + onlineUsers.get(2) + "." + user);
+//                                    Platform.runLater(() -> {
+                                    try {
+                                        fxmlLoader = new FXMLLoader(getClass().getResource("onlinegameboard.fxml"));
+                                        root = (Parent) fxmlLoader.load();
+                                        stage = new Stage();
+                                        stage.initModality(Modality.APPLICATION_MODAL);
+//                                stage.setTitle("Active users");
+                                        stage.setScene(new Scene(root));
+                                        stage.setResizable(false);
+                                        stage.show();
+                                    } catch (IOException ex) {
+                                        Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+//                                    });
+                                } catch (IOException ex) {
+                                    Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
 
                             }
                             if (result.get() == ButtonType.CANCEL) {
@@ -201,23 +225,68 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("valid")) {
-                    Platform.runLater(() -> {
-                        try {
-                            fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
-                            root = (Parent) fxmlLoader.load();
-                            stage = new Stage();
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setTitle("Active users");
-                            stage.setScene(new Scene(root));
-                            stage.setResizable(false);
-                            stage.show();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    });
+                    if (onlineUsers.get(1).equals(user)) {
+                        Platform.runLater(() -> {
+                            try {
+                                fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
+                                root = (Parent) fxmlLoader.load();
+                                stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+                                stage.setTitle("Active users");
+                                stage.setScene(new Scene(root));
+                                stage.setResizable(false);
+                                stage.show();
+                            } catch (IOException ex) {
+                                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                    }
+                } else if (onlineUsers.get(0).equals("accept")) {
+                    if (onlineUsers.get(1).equals(user)) {
+
+                        Platform.runLater(() -> {
+                            try {
+                                fxmlLoader = new FXMLLoader(getClass().getResource("onlinegameboard.fxml"));
+                                root = (Parent) fxmlLoader.load();
+                                stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+//                                stage.setTitle("Active users");
+                                stage.setScene(new Scene(root));
+                                stage.setResizable(false);
+                                stage.show();
+                            } catch (IOException ex) {
+                                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+
+                    }
+                } else if (onlineUsers.get(0).equals("play")) {
+//                    if (onlineUsers.get(1).equals(user)) {
+                        Platform.runLater(() -> {
+                            for (int i = 0; i < 9; i++) {
+//                            if (reply.startsWith("b")) {
+                                System.out.println(boardButtons.get(i).getId());
+//                                System.out.println(msg[0]);
+                                if (boardButtons.get(i).getId().equals(onlineUsers.get(2))) {
+                                    boardButtons.get(i).setText(onlineUsers.get(3));
+                                    boardButtons.get(i).setOpacity(1);
+//                                boardButtons.get(i).setText("esraa");
+                                    if (onlineUsers.get(3).equals("X")) {
+                                        boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
+
+                                    } else {
+                                        boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
+                                    }
+
+                                }
+                            }
+                        });
+
+//                    }
+
                 }
             } catch (IOException ex) {
-
+                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
