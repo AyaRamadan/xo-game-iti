@@ -174,7 +174,7 @@ public class RegisterationController extends Thread implements Initializable {
                         items.remove("active");
                     });
                 } else if (onlineUsers.get(0).equals("request")) {
-                   if (onlineUsers.get(1).equals(user)) {
+                    if (onlineUsers.get(1).equals(user)) {
                         Platform.runLater(() -> {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setResizable(true);
@@ -187,20 +187,22 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("valid")) {
-                    Platform.runLater(() -> {
-                        try {
-                            fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
-                            root = (Parent) fxmlLoader.load();
-                            stage = new Stage();
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setTitle("Active users");
-                            stage.setScene(new Scene(root));
-                            stage.setResizable(false);
-                            stage.show();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    });
+                    if (onlineUsers.get(1).equals(user)) {
+                        Platform.runLater(() -> {
+                            try {
+                                fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
+                                root = (Parent) fxmlLoader.load();
+                                stage = new Stage();
+                                stage.initModality(Modality.APPLICATION_MODAL);
+                                stage.setTitle("Active users");
+                                stage.setScene(new Scene(root));
+                                stage.setResizable(false);
+                                stage.show();
+                            } catch (IOException ex) {
+                                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        });
+                    }
                 }
             } catch (IOException ex) {
                 //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
