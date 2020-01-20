@@ -43,8 +43,6 @@ import static tec_tac_toe.Home.serverIp;
  *
  * @author Mina
  */
-
-
 public class RegisterationController extends Thread implements Initializable {
 
     @FXML
@@ -70,9 +68,9 @@ public class RegisterationController extends Thread implements Initializable {
     public static DataInputStream dis;
     public static PrintStream ps;
     public static ArrayList<String> onlineUsers = new ArrayList<String>();
- 
+
     public static boolean firingRefreshButton = false;
-    String serverIp ;
+    String serverIp;
     FXMLLoader fxmlLoader;
     Parent root;
     Stage stage;
@@ -121,20 +119,7 @@ public class RegisterationController extends Thread implements Initializable {
                         label.setText("(.)charcter is not allowed");
                     }
                 }
-                try {
 
-                    fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
-                    root = (Parent) fxmlLoader.load();
-                    stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    stage.setTitle("Active users");
-                    stage.setScene(new Scene(root));
-                    stage.setResizable(false);
-                    stage.show();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         });
         register.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
@@ -187,20 +172,36 @@ public class RegisterationController extends Thread implements Initializable {
                         items.remove("active");
                     });
                 } else if (onlineUsers.get(0).equals("request")) {
-                    if (onlineUsers.get(1).equals(user)) {
-                        Platform.runLater(() -> {
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            alert.setResizable(true);
-//                            Label label1 = new Label("Please Enter server ip address");
-//                            TextField textField = new TextField();
-//                            HBox hb = new HBox();
-//                            hb.getChildren().addAll(label1, textField);
-                            alert.setTitle("Enter server ip");
-//                            alert.setDialogPane(hb);
-                            alert.getDialogPane().setMinHeight(100);
-                            alert.getDialogPane().setMinWidth(100);
-                        });
-                    }
+//                    if (onlineUsers.get(1).equals(user)) {
+//                        Platform.runLater(() -> {
+//                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                            alert.setResizable(true);
+////                            Label label1 = new Label("Please Enter server ip address");
+////                            TextField textField = new TextField();
+////                            HBox hb = new HBox();
+////                            hb.getChildren().addAll(label1, textField);
+//                            alert.setTitle("Enter server ip");
+////                            alert.setDialogPane(hb);
+//                            alert.getDialogPane().setMinHeight(100);
+//                            alert.getDialogPane().setMinWidth(100);
+//                            alert.show();
+//                        });
+//                    }
+                } else if (onlineUsers.get(0).equals("valid")) {
+                    Platform.runLater(() -> {
+                        try {
+                            fxmlLoader = new FXMLLoader(getClass().getResource("listview.fxml"));
+                            root = (Parent) fxmlLoader.load();
+                            stage = new Stage();
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.setTitle("Active users");
+                            stage.setScene(new Scene(root));
+                            stage.setResizable(false);
+                            stage.show();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    });
                 }
             } catch (IOException ex) {
                 //  Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
