@@ -28,6 +28,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -172,21 +174,18 @@ public class RegisterationController extends Thread implements Initializable {
                         items.remove("active");
                     });
                 } else if (onlineUsers.get(0).equals("request")) {
-//                    if (onlineUsers.get(1).equals(user)) {
-//                        Platform.runLater(() -> {
-//                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                            alert.setResizable(true);
-////                            Label label1 = new Label("Please Enter server ip address");
-////                            TextField textField = new TextField();
-////                            HBox hb = new HBox();
-////                            hb.getChildren().addAll(label1, textField);
-//                            alert.setTitle("Enter server ip");
-////                            alert.setDialogPane(hb);
-//                            alert.getDialogPane().setMinHeight(100);
-//                            alert.getDialogPane().setMinWidth(100);
-//                            alert.show();
-//                        });
-//                    }
+                   if (onlineUsers.get(1).equals(user)) {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setResizable(true);
+                            alert.setTitle("request to play");
+                            ButtonType yesButton = new ButtonType("Yes");
+//                            ButtonType noButton = new ButtonType("No");
+                            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+                            alert.getButtonTypes().setAll(yesButton, cancelButton);
+                            alert.show();
+                        });
+                    }
                 } else if (onlineUsers.get(0).equals("valid")) {
                     Platform.runLater(() -> {
                         try {
