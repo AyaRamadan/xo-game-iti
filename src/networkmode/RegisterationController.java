@@ -191,8 +191,15 @@ public class RegisterationController extends Thread implements Initializable {
 //                            if (!result.isPresent()) // alert is exited, no button has been pressed.
 //                            {
                             if (result.get() == ButtonType.OK) {
-                                System.out.println("ok");
-
+                                try {
+                                    System.out.println("ok");
+                                    ps = new PrintStream(s.getOutputStream());
+                                    ps.println("accept" + "." + onlineUsers.get(2) + "." +user);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                
+                                
                             }
                             if (result.get() == ButtonType.CANCEL) {
                                 System.out.println("CANCEL");
@@ -217,9 +224,13 @@ public class RegisterationController extends Thread implements Initializable {
                             }
                         });
                     }
+                }else if(onlineUsers.get(0).equals("accept")){
+                    if (onlineUsers.get(1).equals(user)) {
+                        
+                    }
                 }
             } catch (IOException ex) {
-
+                    Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
