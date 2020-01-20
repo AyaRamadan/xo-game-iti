@@ -9,7 +9,11 @@
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <jar href="Tec_Tac_Toe.jar" size="5252274" download="eager" />
+=======
+    <jar href="Tec_Tac_Toe.jar" size="5244420" download="eager" />
+>>>>>>> a8784a2705516dde200ee4a03ae7c13e85fa33e2
 =======
     <jar href="Tec_Tac_Toe.jar" size="5244420" download="eager" />
 >>>>>>> a8784a2705516dde200ee4a03ae7c13e85fa33e2
