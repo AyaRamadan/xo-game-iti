@@ -177,7 +177,7 @@ public class Home extends AnchorPane {
 ////                alert.setDialogPane(h);
 //                alert.getDialogPane().setMinHeight(100);
 //                alert.getDialogPane().setMinWidth(100);
-                TextInputDialog dialog = new TextInputDialog("walter");
+                TextInputDialog dialog = new TextInputDialog("127.0.0.1");
                 dialog.setTitle("Text Input Dialog");
                 dialog.setHeaderText("Please enter server ip address");
                 dialog.setContentText("Server ip:");
