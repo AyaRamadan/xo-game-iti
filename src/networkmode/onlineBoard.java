@@ -219,7 +219,9 @@ public class onlineBoard implements Initializable {
 //            dis = new DataInputStream(s.getInputStream());
             ps = new PrintStream(s.getOutputStream());
 //            String[] arr = {btnVal, id};
-            ps.println("play" + "."+onlineUsers.get(1) + user + "." + id + "." + btnVal);
+            System.out.println("receiver is" + onlineUsers.get(2)+ "user is"+ user );
+            ps.println("play" + "." + onlineUsers.get(2)+"." + user + "." + id + "." + btnVal);
+//            ps.println("play" + "."+ user + "." + id + "." + btnVal);
 //            ps.println(btnVal);
             for (int i = 0; i < 9; i++) {
                 boardButtons.get(i).removeEventHandler(ActionEvent.ACTION, eventHandler);
