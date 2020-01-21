@@ -48,7 +48,7 @@ public class listViewController implements Initializable {
 //    public static ObservableList<String> items = FXCollections.observableArrayList();
     @FXML
     private Button refresh;
-    String player;
+   public static String player;
 
 //    @FXML
 //    public void handleMouseClick(MouseEvent arg0) {

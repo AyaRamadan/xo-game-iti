@@ -39,6 +39,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import static networkmode.listViewController.player;
 import static networkmode.onlineBoard.boardButtons;
 import tec_tac_toe.Home;
 import static tec_tac_toe.Home.serverIp;
@@ -243,7 +244,7 @@ public class RegisterationController extends Thread implements Initializable {
                     }
                 } else if (onlineUsers.get(0).equals("accept")) {
                     if (onlineUsers.get(1).equals(user)) {
-                        
+
                         Platform.runLater(() -> {
                             try {
                                 fxmlLoader = new FXMLLoader(getClass().getResource("onlinegameboard.fxml"));
@@ -259,25 +260,32 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("play")) {
-//                    if (onlineUsers.get(1).equals(user)) {
-                    Platform.runLater(() -> {
-                        for (int i = 0; i < 9; i++) {
+
+//                    System.out.println("online user is"+onlineUsers.get(1) );
+                    if (onlineUsers.get(1).equals(player)) {
+                        System.out.println("heelo online user");
+                        Platform.runLater(() -> {
+                            for (int i = 0; i < 9; i++) {
+
 //                            if (reply.startsWith("b")) {
-                            System.out.println(boardButtons.get(i).getId());
+                                System.out.println(boardButtons.get(i).getId());
 //                                System.out.println(msg[0]);
-                            if (boardButtons.get(i).getId().equals(onlineUsers.get(2))) {
-                                boardButtons.get(i).setText(onlineUsers.get(3));
-                                boardButtons.get(i).setOpacity(1);
+
+                                if (boardButtons.get(i).getId().equals(onlineUsers.get(3))) {
+                                    boardButtons.get(i).setText(onlineUsers.get(4));
+                                    boardButtons.get(i).setOpacity(1);
 //                                boardButtons.get(i).setText("esraa");
-                                if (onlineUsers.get(3).equals("X")) {
-                                    boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
+                                    if (onlineUsers.get(4).equals("X")) {
+                                        boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
+
+                                    } else {
+                                        boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
+                                    }
 
                                 } else {
                                     boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
                                 }
-
                             }
-                        }
                     });
                 } else if (onlineUsers.get(0).equals("invalid")) {
                     Platform.runLater(() -> {
@@ -294,9 +302,13 @@ public class RegisterationController extends Thread implements Initializable {
                             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                             Optional<ButtonType> result = alert.showAndWait();
                         });
+
                     }
+
                 }
-            } catch (IOException ex) {
+
+            }
+        }catch (IOException ex) {
 //                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
@@ -308,6 +320,6 @@ public class RegisterationController extends Thread implements Initializable {
                 });
                 break;
             }
-        }
     }
+}
 }
