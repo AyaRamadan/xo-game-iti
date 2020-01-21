@@ -221,9 +221,9 @@ public class onlineBoard implements Initializable {
 //            String[] arr = {btnVal, id};
             ps.println("play" + "."+onlineUsers.get(1) + user + "." + id + "." + btnVal);
 //            ps.println(btnVal);
-            for (int i = 0; i < 9; i++) {
-                boardButtons.get(i).removeEventHandler(ActionEvent.ACTION, eventHandler);
-            }
+//            for (int i = 0; i < 9; i++) {
+//                boardButtons.get(i).removeEventHandler(ActionEvent.ACTION, eventHandler);
+//            }
         } catch (IOException ex) {
             Logger.getLogger(onlineBoard.class.getName()).log(Level.SEVERE, null, ex);
         }

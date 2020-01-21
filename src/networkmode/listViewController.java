@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,16 +16,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Region;
 import static networkmode.RegisterationController.dis;
 
 import static networkmode.RegisterationController.firingRefreshButton;
 import static networkmode.RegisterationController.items;
 
 import static networkmode.RegisterationController.onlineUsers;
+import static networkmode.RegisterationController.playing;
 import static networkmode.RegisterationController.ps;
 import static networkmode.RegisterationController.s;
 import static networkmode.RegisterationController.user;
@@ -101,13 +106,23 @@ public class listViewController implements Initializable {
 //        System.out.println("clicked on " + listOfPlayers.getSelectionModel().getSelectedItem());
 //    }
     public void handleMouseClick(MouseEvent arg0) {
-        try {
-            player=listOfPlayers.getSelectionModel().getSelectedItem();
-            ps = new PrintStream(s.getOutputStream());
-            ps.println("request" + "." + player + "." + user);
-            System.out.println(player);
-        } catch (IOException ex) {
-            Logger.getLogger(listViewController.class.getName()).log(Level.SEVERE, null, ex);
+        if (playing == false) {
+            
+            try {
+                player = listOfPlayers.getSelectionModel().getSelectedItem();
+                ps = new PrintStream(s.getOutputStream());
+                ps.println("request" + "." + player + "." + user);
+                System.out.println(player);
+            } catch (IOException ex) {
+                Logger.getLogger(listViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
+            alert.setResizable(true);
+            alert.setTitle("Request Refused");
+            alert.setContentText(player+" is playing now");
+            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+            Optional<ButtonType> result = alert.showAndWait();
         }
     }
 }

@@ -68,6 +68,7 @@ public class RegisterationController extends Thread implements Initializable {
     private Button register;
     @FXML
     private Label label;
+    public static boolean playing = false;
 
     public static Socket s;
     public static DataInputStream dis;
@@ -106,11 +107,12 @@ public class RegisterationController extends Thread implements Initializable {
 //        }
         serverIp = Home.serverIp;
         th.start();
+        UserName.setText(null);
+        Password.setText(null);
         Go.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (UserName.getText() != null && Password.getText() != null) {
-
                     System.out.println(user);
                     if (!(UserName.getText().contains(".")) || !(Password.getText().contains("."))) {
                         user = UserName.getText();
@@ -126,7 +128,8 @@ public class RegisterationController extends Thread implements Initializable {
                     } else {
                         label.setText("(.)charcter is not allowed");
                     }
-                }else if(UserName.getText() == null || Password.getText() == null){
+                } else if (UserName.getText() == null || Password.getText() == null) {
+                    System.out.println("null user and pass");
                     label.setVisible(true);
                     label.setText("You Must Insert Username And Password");
                 }
@@ -136,7 +139,6 @@ public class RegisterationController extends Thread implements Initializable {
         register.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
                 if (UserName.getText() != null && Password.getText() != null) {
                     label.setVisible(false);
                     String user = UserName.getText();
@@ -189,42 +191,37 @@ public class RegisterationController extends Thread implements Initializable {
                             alert.setResizable(true);
                             alert.setTitle("request to play");
                             alert.setContentText(onlineUsers.get(1) + "a user wants to play with you");
-//                            ButtonType yesButton = new ButtonType("Yes");
-//                            ButtonType cancelButton = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-//                            alert.getButtonTypes().setAll(yesButton, cancelButton);
                             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-//                            alert.show();
                             Optional<ButtonType> result = alert.showAndWait();
-//                            if (!result.isPresent()) // alert is exited, no button has been pressed.
-//                            {
                             if (result.get() == ButtonType.OK) {
                                 try {
                                     System.out.println("ok");
                                     ps = new PrintStream(s.getOutputStream());
                                     ps.println("accept" + "." + onlineUsers.get(2) + "." + user);
-//                                    Platform.runLater(() -> {
                                     try {
                                         fxmlLoader = new FXMLLoader(getClass().getResource("onlinegameboard.fxml"));
                                         root = (Parent) fxmlLoader.load();
                                         stage = new Stage();
                                         stage.initModality(Modality.APPLICATION_MODAL);
-//                                stage.setTitle("Active users");
                                         stage.setScene(new Scene(root));
                                         stage.setResizable(false);
                                         stage.show();
                                     } catch (IOException ex) {
                                         Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-//                                    });
                                 } catch (IOException ex) {
                                     Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-
                             }
                             if (result.get() == ButtonType.CANCEL) {
-                                System.out.println("CANCEL");
+                                try {
+                                    System.out.println("CANCEL");
+                                    ps = new PrintStream(s.getOutputStream());
+                                    ps.println("refuse" + "." + onlineUsers.get(2) + "." + user);
+                                } catch (IOException ex) {
+                                    Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
-//                            }
                         });
                     }
                 } else if (onlineUsers.get(0).equals("valid")) {
@@ -246,14 +243,13 @@ public class RegisterationController extends Thread implements Initializable {
                     }
                 } else if (onlineUsers.get(0).equals("accept")) {
                     if (onlineUsers.get(1).equals(user)) {
-
+                        
                         Platform.runLater(() -> {
                             try {
                                 fxmlLoader = new FXMLLoader(getClass().getResource("onlinegameboard.fxml"));
                                 root = (Parent) fxmlLoader.load();
                                 stage = new Stage();
                                 stage.initModality(Modality.APPLICATION_MODAL);
-//                                stage.setTitle("Active users");
                                 stage.setScene(new Scene(root));
                                 stage.setResizable(false);
                                 stage.show();
@@ -261,35 +257,56 @@ public class RegisterationController extends Thread implements Initializable {
                                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         });
-
                     }
                 } else if (onlineUsers.get(0).equals("play")) {
 //                    if (onlineUsers.get(1).equals(user)) {
-                        Platform.runLater(() -> {
-                            for (int i = 0; i < 9; i++) {
+                    Platform.runLater(() -> {
+                        for (int i = 0; i < 9; i++) {
 //                            if (reply.startsWith("b")) {
-                                System.out.println(boardButtons.get(i).getId());
+                            System.out.println(boardButtons.get(i).getId());
 //                                System.out.println(msg[0]);
-                                if (boardButtons.get(i).getId().equals(onlineUsers.get(2))) {
-                                    boardButtons.get(i).setText(onlineUsers.get(3));
-                                    boardButtons.get(i).setOpacity(1);
+                            if (boardButtons.get(i).getId().equals(onlineUsers.get(2))) {
+                                boardButtons.get(i).setText(onlineUsers.get(3));
+                                boardButtons.get(i).setOpacity(1);
 //                                boardButtons.get(i).setText("esraa");
-                                    if (onlineUsers.get(3).equals("X")) {
-                                        boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
+                                if (onlineUsers.get(3).equals("X")) {
+                                    boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
 
-                                    } else {
-                                        boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
-                                    }
-
+                                } else {
+                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
                                 }
+
                             }
+                        }
+                    });
+                } else if (onlineUsers.get(0).equals("invalid")) {
+                    Platform.runLater(() -> {
+                        label.setVisible(true);
+                        label.setText("Wrong User name or password");
+                    });
+                } else if (onlineUsers.get(0).equals("refuse")) {
+                    if (onlineUsers.get(1).equals(user)) {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
+                            alert.setResizable(true);
+                            alert.setTitle("Requesr Refused");
+                            alert.setContentText("Your Request to Play Was Refused");
+                            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                            Optional<ButtonType> result = alert.showAndWait();
                         });
-
-//                    }
-
+                    }
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+                Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
+                    alert.setResizable(true);
+                    alert.setTitle("ERROR");
+                    alert.setContentText("SERVER IS DISCONNECTED...");
+                    alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                    Optional<ButtonType> result = alert.showAndWait();
+                });
+                break;
             }
         }
     }
