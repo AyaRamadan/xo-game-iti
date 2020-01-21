@@ -283,11 +283,28 @@ public class RegisterationController extends Thread implements Initializable {
                                         boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
                                     }
 
+                                } else {
+                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
                                 }
 //                                else {
 //                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
 //                                }
                             }
+                    });
+                } else if (onlineUsers.get(0).equals("invalid")) {
+                    Platform.runLater(() -> {
+                        label.setVisible(true);
+                        label.setText("Wrong User name or password");
+                    });
+                } else if (onlineUsers.get(0).equals("refuse")) {
+                    if (onlineUsers.get(1).equals(user)) {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
+                            alert.setResizable(true);
+                            alert.setTitle("Requesr Refused");
+                            alert.setContentText("Your Request to Play Was Refused");
+                            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                            Optional<ButtonType> result = alert.showAndWait();
                         });
                     } else if (onlineUsers.get(0).equals("invalid")) {
                         Platform.runLater(() -> {
@@ -310,7 +327,10 @@ public class RegisterationController extends Thread implements Initializable {
                     }
 
                 }
-            } catch (IOException ex) {
+
+            }
+        }catch (IOException ex) {
+
 //                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
@@ -322,6 +342,6 @@ public class RegisterationController extends Thread implements Initializable {
                 });
                 break;
             }
-        }
     }
+}
 }
