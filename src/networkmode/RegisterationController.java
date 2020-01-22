@@ -41,6 +41,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import static networkmode.listViewController.player;
 import static networkmode.onlineBoard.boardButtons;
+import static networkmode.onlineBoard.xTurn;
 import tec_tac_toe.Home;
 import static tec_tac_toe.Home.serverIp;
 
@@ -87,6 +88,7 @@ public class RegisterationController extends Thread implements Initializable {
     public static String buttonVal;
 
     public static ObservableList<String> items = FXCollections.observableArrayList();
+    String receiving;
 
     /**
      * Initializes the controller class.
@@ -176,6 +178,7 @@ public class RegisterationController extends Thread implements Initializable {
                 System.out.println(reply);
                 onlineUsers = new ArrayList(Arrays.asList(reply.split("[.]")));
                 for (int i = 0; i < onlineUsers.size(); i++) {
+                    System.out.println("online users ");
                     System.out.println(onlineUsers.get(i));
                 }
                 if (onlineUsers.get(0).equals("active")) {
@@ -260,13 +263,18 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("play")) {
+//                    if(onlineUsers.get(1).equals(user)){
+//                        receiving=onlineUsers.get(1);
+//                    }else{
+//                        receiving=onlineUsers.get(2);
+//                    }
 
 //                    System.out.println("online user is"+onlineUsers.get(1) );
-                    if (onlineUsers.get(1).equals(player)) {
-                        System.out.println("heelo online user");
+                    if (onlineUsers.get(2).equals(user)) {
+//                        System.out.println("heelo online user");
                         Platform.runLater(() -> {
                             for (int i = 0; i < 9; i++) {
-
+                                boardButtons.get(i).setDisable(false);
 //                            if (reply.startsWith("b")) {
                                 System.out.println(boardButtons.get(i).getId());
 //                                System.out.println(msg[0]);
@@ -274,6 +282,7 @@ public class RegisterationController extends Thread implements Initializable {
                                 if (boardButtons.get(i).getId().equals(onlineUsers.get(3))) {
                                     boardButtons.get(i).setText(onlineUsers.get(4));
                                     boardButtons.get(i).setOpacity(1);
+                                    xTurn = Boolean.parseBoolean(onlineUsers.get(5));
 //                                boardButtons.get(i).setText("esraa");
                                     if (onlineUsers.get(4).equals("X")) {
                                         boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
@@ -282,15 +291,13 @@ public class RegisterationController extends Thread implements Initializable {
                                     if (onlineUsers.get(4).equals("O")) {
                                         boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
                                     }
+//                                    onlineBoard.editable =true;
 
-                                } else {
-                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
                                 }
-//                                else {
-//                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
-//                                }
+
                             }
-                    });
+                        });
+                    }
                 } else if (onlineUsers.get(0).equals("invalid")) {
                     Platform.runLater(() -> {
                         label.setVisible(true);
@@ -306,30 +313,28 @@ public class RegisterationController extends Thread implements Initializable {
                             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                             Optional<ButtonType> result = alert.showAndWait();
                         });
-                    } else if (onlineUsers.get(0).equals("invalid")) {
+                    }
+                } else if (onlineUsers.get(0).equals("invalid")) {
+                    Platform.runLater(() -> {
+                        label.setVisible(true);
+                        label.setText("Wrong User name or password");
+                    });
+                } else if (onlineUsers.get(0).equals("refuse")) {
+                    if (onlineUsers.get(1).equals(user)) {
                         Platform.runLater(() -> {
-                            label.setVisible(true);
-                            label.setText("Wrong User name or password");
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
+                            alert.setResizable(true);
+                            alert.setTitle("Requesr Refused");
+                            alert.setContentText("Your Request to Play Was Refused");
+                            alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                            Optional<ButtonType> result = alert.showAndWait();
                         });
-                    } else if (onlineUsers.get(0).equals("refuse")) {
-                        if (onlineUsers.get(1).equals(user)) {
-                            Platform.runLater(() -> {
-                                Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
-                                alert.setResizable(true);
-                                alert.setTitle("Requesr Refused");
-                                alert.setContentText("Your Request to Play Was Refused");
-                                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-                                Optional<ButtonType> result = alert.showAndWait();
-                            });
-
-                        }
 
                     }
 
                 }
 
-            }
-        }catch (IOException ex) {
+            } catch (IOException ex) {
 
 //                Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                 Platform.runLater(() -> {
@@ -342,6 +347,6 @@ public class RegisterationController extends Thread implements Initializable {
                 });
                 break;
             }
+        }
     }
-}
 }
