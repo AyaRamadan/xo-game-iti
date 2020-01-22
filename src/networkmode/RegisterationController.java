@@ -46,6 +46,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import static networkmode.listViewController.player;
 import static networkmode.onlineBoard.boardButtons;
 import static networkmode.onlineBoard.loseing;
@@ -197,7 +198,7 @@ public class RegisterationController extends Thread implements Initializable {
                         items.remove(user);
                         items.remove("active");
                     });
-                } else if (onlineUsers.get(0).equals("request")) {
+                } else if (onlineUsers.get(0).equals("request") && playing == false) {
                     if (onlineUsers.get(1).equals(user)) {
                         Platform.runLater(() -> {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK, ButtonType.CANCEL);
@@ -208,6 +209,7 @@ public class RegisterationController extends Thread implements Initializable {
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
                                 try {
+                                    playing = true;
                                     System.out.println("ok");
                                     ps = new PrintStream(s.getOutputStream());
                                     ps.println("accept" + "." + onlineUsers.get(2) + "." + user);
@@ -219,6 +221,13 @@ public class RegisterationController extends Thread implements Initializable {
                                         stage.setScene(new Scene(root));
                                         stage.setResizable(false);
                                         stage.show();
+                                        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                            @Override
+                                            public void handle(WindowEvent event) {
+                                                playing = false;
+                                                System.out.println(playing);
+                                            }
+                                        });
                                     } catch (IOException ex) {
                                         Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                                     }
@@ -236,6 +245,13 @@ public class RegisterationController extends Thread implements Initializable {
                                 }
                             }
                         });
+                    }
+                } else if (onlineUsers.get(0).equals("request") && playing == true) {
+                    try {
+                        ps = new PrintStream(s.getOutputStream());
+                        ps.println("playing" + "." + onlineUsers.get(2) + "." + user);
+                    } catch (IOException ex) {
+                        Logger.getLogger(listViewController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else if (onlineUsers.get(0).equals("valid")) {
                     if (onlineUsers.get(1).equals(user)) {
@@ -256,7 +272,7 @@ public class RegisterationController extends Thread implements Initializable {
                     }
                 } else if (onlineUsers.get(0).equals("accept")) {
                     if (onlineUsers.get(1).equals(user)) {
-
+                        playing = true;
                         Platform.runLater(() -> {
                             try {
                                 fxmlLoader = new FXMLLoader(getClass().getResource("onlinegameboard.fxml"));
@@ -266,6 +282,13 @@ public class RegisterationController extends Thread implements Initializable {
                                 stage.setScene(new Scene(root));
                                 stage.setResizable(false);
                                 stage.show();
+                                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                    @Override
+                                    public void handle(WindowEvent event) {
+                                        playing = false;
+                                        System.out.println(playing);
+                                    }
+                                });
                             } catch (IOException ex) {
                                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -291,6 +314,7 @@ public class RegisterationController extends Thread implements Initializable {
                                 if (boardButtons.get(i).getId().equals(onlineUsers.get(3))) {
                                     boardButtons.get(i).setText(onlineUsers.get(4));
                                     boardButtons.get(i).setOpacity(1);
+
                                     xTurn = Boolean.parseBoolean(onlineUsers.get(5));
 //                                boardButtons.get(i).setText("esraa");
                                     if (onlineUsers.get(4).equals("X")) {
@@ -308,6 +332,7 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("play") && onlineUsers.get(6).equals("gameends")) {
+
                     if (onlineUsers.get(2).equals(user)) {
                         Platform.runLater(() -> {
                             for (int i = 0; i < 9; i++) {
@@ -406,7 +431,23 @@ public class RegisterationController extends Thread implements Initializable {
                         });
 
                     }
-                }
+
+
+                } else if (onlineUsers.get(0).equals("playing")) {
+                        System.out.println("playing");
+                        if (onlineUsers.get(1).equals(user)) {
+                            System.out.println("playing");
+                            Platform.runLater(() -> {
+                                Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
+                                alert.setResizable(true);
+                                alert.setTitle("respond");
+                                alert.setContentText(onlineUsers.get(2) + " is already playing");
+                                alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+                                Optional<ButtonType> result = alert.showAndWait();
+                            });
+                        }
+                    }
+
 
             } catch (IOException ex) {
 
