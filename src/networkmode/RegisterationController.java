@@ -332,28 +332,51 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("play") && onlineUsers.get(6).equals("gameends")) {
-                      Platform.runLater(() -> {
-                   
-                    String path = "src/assets/fail.mp4";
-                    media = new Media(new File(path).toURI().toString());
-                    MediaPlayer mediaPlayer = new MediaPlayer(media);
-                    MediaView mediaView = new MediaView(mediaPlayer);
-                    mediaPlayer.setAutoPlay(true);
-                    Label winning = new Label("You loose :D");
-                    winning.setAlignment(Pos.CENTER);
-                    VBox content = new VBox(10, winning, mediaView);
-                    content.setAlignment(Pos.CENTER);
-                    Dialog d1 = new Dialog();
-                    d1.setResizable(true);
-                    d1.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-                    d1.getDialogPane().setContent(content);
-                    d1.getDialogPane().setMinHeight(500);
-                    d1.getDialogPane().setMinWidth(500);
+                    Platform.runLater(() -> {
+//                        for (int i = 0; i < 9; i++) {
+//                            boardButtons.get(i).setDisable(false);
+////                            if (reply.startsWith("b")) {
+//                            System.out.println(boardButtons.get(i).getId());
+////                                System.out.println(msg[0]);
+//
+//                            if (boardButtons.get(i).getId().equals(onlineUsers.get(3))) {
+//                                boardButtons.get(i).setText(onlineUsers.get(4));
+//                                boardButtons.get(i).setOpacity(1);
+//                                xTurn = Boolean.parseBoolean(onlineUsers.get(5));
+////                                boardButtons.get(i).setText("esraa");
+//                                if (onlineUsers.get(4).equals("X")) {
+//                                    boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
+//
+//                                }
+//                                if (onlineUsers.get(4).equals("O")) {
+//                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
+//                                }
+////                                    onlineBoard.editable =true;
+//
+//                            }
+//
+//                        }
 
-                    d1.setOnShowing(e -> mediaPlayer.play());
-                    d1.setOnCloseRequest(e -> mediaPlayer.stop());
-                    d1.show();
-                      });
+                        String path = "src/assets/fail.mp4";
+                        media = new Media(new File(path).toURI().toString());
+                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+                        MediaView mediaView = new MediaView(mediaPlayer);
+                        mediaPlayer.setAutoPlay(true);
+                        Label winning = new Label("You loose :D");
+                        winning.setAlignment(Pos.CENTER);
+                        VBox content = new VBox(10, winning, mediaView);
+                        content.setAlignment(Pos.CENTER);
+                        Dialog d1 = new Dialog();
+                        d1.setResizable(true);
+                        d1.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+                        d1.getDialogPane().setContent(content);
+                        d1.getDialogPane().setMinHeight(500);
+                        d1.getDialogPane().setMinWidth(500);
+
+                        d1.setOnShowing(e -> mediaPlayer.play());
+                        d1.setOnCloseRequest(e -> mediaPlayer.stop());
+                        d1.show();
+                    });
 
                 } else if (onlineUsers.get(0).equals("invalid")) {
                     Platform.runLater(() -> {
