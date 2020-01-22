@@ -420,7 +420,7 @@ public class RegisterationController extends Thread implements Initializable {
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
                                 alert.setResizable(true);
                                 alert.setTitle("respond");
-                                alert.setContentText(onlineUsers.get(2) + " is already playing");
+                                alert.setContentText("this user is already playing");
                                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                                 Optional<ButtonType> result = alert.showAndWait();
                             });
