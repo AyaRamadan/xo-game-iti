@@ -6,6 +6,7 @@
 package networkmode;
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -25,23 +26,30 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import static networkmode.listViewController.player;
 import static networkmode.onlineBoard.boardButtons;
+import static networkmode.onlineBoard.loseing;
 import static networkmode.onlineBoard.xTurn;
 import tec_tac_toe.Home;
 import static tec_tac_toe.Home.serverIp;
@@ -87,6 +95,7 @@ public class RegisterationController extends Thread implements Initializable {
     public static String user;
     public static String buttonid;
     public static String buttonVal;
+    Media media;
 
     public static ObservableList<String> items = FXCollections.observableArrayList();
     String receiving;
@@ -285,7 +294,7 @@ public class RegisterationController extends Thread implements Initializable {
                             }
                         });
                     }
-                } else if (onlineUsers.get(0).equals("play")) {
+                } else if (onlineUsers.get(0).equals("play") && onlineUsers.get(6).equals("gamecont")) {
 //                    if(onlineUsers.get(1).equals(user)){
 //                        receiving=onlineUsers.get(1);
 //                    }else{
@@ -322,6 +331,30 @@ public class RegisterationController extends Thread implements Initializable {
                             }
                         });
                     }
+                } else if (onlineUsers.get(0).equals("play") && onlineUsers.get(6).equals("gameends")) {
+                      Platform.runLater(() -> {
+                   
+                    String path = "src/assets/fail.mp4";
+                    media = new Media(new File(path).toURI().toString());
+                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                    MediaView mediaView = new MediaView(mediaPlayer);
+                    mediaPlayer.setAutoPlay(true);
+                    Label winning = new Label("You loose :D");
+                    winning.setAlignment(Pos.CENTER);
+                    VBox content = new VBox(10, winning, mediaView);
+                    content.setAlignment(Pos.CENTER);
+                    Dialog d1 = new Dialog();
+                    d1.setResizable(true);
+                    d1.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+                    d1.getDialogPane().setContent(content);
+                    d1.getDialogPane().setMinHeight(500);
+                    d1.getDialogPane().setMinWidth(500);
+
+                    d1.setOnShowing(e -> mediaPlayer.play());
+                    d1.setOnCloseRequest(e -> mediaPlayer.stop());
+                    d1.show();
+                      });
+
                 } else if (onlineUsers.get(0).equals("invalid")) {
                     Platform.runLater(() -> {
                         label.setVisible(true);

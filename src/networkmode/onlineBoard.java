@@ -93,7 +93,9 @@ public class onlineBoard implements Initializable {
     String id;
     String playerReceive;
 
-    public static boolean editable;
+//    public static boolean editable;
+    public static boolean loseing = false;
+
 
     public static ArrayList<Button> boardButtons = new ArrayList<Button>();
     EventHandler<ActionEvent> eventHandler = (ActionEvent e) -> {
@@ -242,19 +244,14 @@ public class onlineBoard implements Initializable {
             } else {
                 playerReceive = onlineUsers.get(2);
             }
+            if (GameEnds == false) {
+                ps.println("play" + "." + user + "." + playerReceive + "." + id + "." + btnVal + "." +xTurn+"."+ "gamecont");
+            }
+            if (GameEnds == true) {
+                ps.println("play" + "." + user + "." + playerReceive + "." + id + "." + btnVal + "."+xTurn +"."+ "gameends");
 
-            ps.println("play" + "." + user + "." + playerReceive + "." + id + "." + btnVal + "." + xTurn);
+            }
 
-            editable = true;
-//            for (int i = 0; i < 9; i++) {
-//                boardButtons.get(i).setDisable(xTurn);
-//             
-//            }
-//            ps.println("play" + "."+ user + "." + id + "." + btnVal);
-//            ps.println(btnVal);
-//            for (int i = 0; i < 9; i++) {
-//                boardButtons.get(i).removeEventHandler(ActionEvent.ACTION, eventHandler);
-//            }
         } catch (IOException ex) {
             Logger.getLogger(onlineBoard.class.getName()).log(Level.SEVERE, null, ex);
         }
