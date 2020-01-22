@@ -84,13 +84,16 @@ public class onlineBoard implements Initializable {
     @FXML
     private Label drawScore;
     String[][] character = {{"0", "0", "0"}, {"0", "0", "0"}, {"0", "0", "0"}};
-    boolean xTurn = true;
+    public static boolean xTurn = true;
     boolean GameEnds = false;
     boolean computer = true;
     int counter = 0;
     Media media;
     String btnVal;
     String id;
+    String playerReceive;
+    public static boolean  editable;
+
     public static ArrayList<Button> boardButtons = new ArrayList<Button>();
     EventHandler<ActionEvent> eventHandler = (ActionEvent e) -> {
         actionPerformed(e);
@@ -138,6 +141,7 @@ public class onlineBoard implements Initializable {
                 stage.close();
             }
         });
+        
     }
 
     private void winner() {
@@ -219,8 +223,21 @@ public class onlineBoard implements Initializable {
 //            dis = new DataInputStream(s.getInputStream());
             ps = new PrintStream(s.getOutputStream());
 //            String[] arr = {btnVal, id};
-            System.out.println("receiver is" + onlineUsers.get(2)+ "user is"+ user );
-            ps.println("play" + "." + onlineUsers.get(2)+"." + user + "." + id + "." + btnVal);
+//            System.out.println("receiver is" + onlineUsers.get(2)+ "user is"+ user );
+//            ps.println("play" + "." + onlineUsers.get(2)+"." + user + "." + id + "." + btnVal);
+
+            if (onlineUsers.get(2).equals(user)) {
+                playerReceive = onlineUsers.get(1);
+            } else {
+                playerReceive = onlineUsers.get(2);
+            }
+
+            ps.println("play" + "." + user + "." + playerReceive + "." + id + "." + btnVal + "." + xTurn);
+            editable=true;
+            for (int i = 0; i < 9; i++) {
+                boardButtons.get(i).setDisable(xTurn);
+             
+            }
 //            ps.println("play" + "."+ user + "." + id + "." + btnVal);
 //            ps.println(btnVal);
 //            for (int i = 0; i < 9; i++) {
