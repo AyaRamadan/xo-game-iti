@@ -92,7 +92,8 @@ public class onlineBoard implements Initializable {
     String btnVal;
     String id;
     String playerReceive;
-    public static boolean  editable;
+
+    public static boolean editable;
 
     public static ArrayList<Button> boardButtons = new ArrayList<Button>();
     EventHandler<ActionEvent> eventHandler = (ActionEvent e) -> {
@@ -141,7 +142,9 @@ public class onlineBoard implements Initializable {
                 stage.close();
             }
         });
-        
+
+
+
     }
 
     private void winner() {
@@ -207,6 +210,10 @@ public class onlineBoard implements Initializable {
                 counter++;
                 winner();
                 xTurn = false;
+                for (int i = 0; i < 9; i++) {
+                    boardButtons.get(i).setDisable(true);
+
+                }
             } else if (xTurn == false && clickedButton.getText().equals("") && GameEnds == false) {
                 clickedButton.setStyle("-fx-text-fill: #FF3E80");
                 clickedButton.setOpacity(1);
@@ -214,6 +221,10 @@ public class onlineBoard implements Initializable {
                 counter++;
                 winner();
                 xTurn = true;
+                for (int i = 0; i < 9; i++) {
+                    boardButtons.get(i).setDisable(true);
+
+                }
             }
 
             btnVal = clickedButton.getText();
@@ -233,11 +244,12 @@ public class onlineBoard implements Initializable {
             }
 
             ps.println("play" + "." + user + "." + playerReceive + "." + id + "." + btnVal + "." + xTurn);
-            editable=true;
-            for (int i = 0; i < 9; i++) {
-                boardButtons.get(i).setDisable(xTurn);
-             
-            }
+
+            editable = true;
+//            for (int i = 0; i < 9; i++) {
+//                boardButtons.get(i).setDisable(xTurn);
+//             
+//            }
 //            ps.println("play" + "."+ user + "." + id + "." + btnVal);
 //            ps.println(btnVal);
 //            for (int i = 0; i < 9; i++) {

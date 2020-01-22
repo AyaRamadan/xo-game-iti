@@ -85,6 +85,7 @@ public class listViewController implements Initializable {
 
             }
         });
+        refresh.fire();
 
 //        if(firingRefreshButton==true){
 //            refresh.fire();
