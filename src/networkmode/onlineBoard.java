@@ -92,8 +92,10 @@ public class onlineBoard implements Initializable {
     String btnVal;
     String id;
     String playerReceive;
+
 //    public static boolean editable;
     public static boolean loseing = false;
+
 
     public static ArrayList<Button> boardButtons = new ArrayList<Button>();
     EventHandler<ActionEvent> eventHandler = (ActionEvent e) -> {
@@ -142,6 +144,8 @@ public class onlineBoard implements Initializable {
                 stage.close();
             }
         });
+
+
 
     }
 
