@@ -16,12 +16,12 @@
                 <Image url="@../assets/bg.jpg" />
             </image>
         </ImageView>
-        <ListView fx:id="listOfPlayers" layoutX="79.0" layoutY="48.0" prefHeight="267.0" prefWidth="253.0"  onMouseClicked="#handleMouseClick" />      
+        <ListView fx:id="listOfPlayers" layoutX="79.0" layoutY="48.0" onMouseClicked="#handleMouseClick" prefHeight="267.0" prefWidth="253.0" />      
         <Label layoutX="101.0" layoutY="-5.0" prefHeight="45.0" prefWidth="226.0" text="Available Players" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="24.0" />
             </font>
         </Label>
-      <Button fx:id="refresh" layoutX="180.0" layoutY="328.0" mnemonicParsing="false" text="Refresh" />
+      <Button fx:id="refresh" layoutX="180.0" layoutY="328.0" mnemonicParsing="false" opacity="0.0" text="Refresh" />
     </children>
 </AnchorPane>

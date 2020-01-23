@@ -160,8 +160,10 @@ public class RegisterationController extends Thread implements Initializable {
                         try {
                             ps = new PrintStream(s.getOutputStream());
                             ps.println("register" + "." + UserName.getText() + "." + Password.getText());
-                            UserName.clear();
-                            Password.clear();
+                            label.setVisible(true);
+                            label.setText("Press login now");
+//                            UserName.clear();
+//                            Password.clear();
                         } catch (IOException ex) {
                             Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -204,7 +206,7 @@ public class RegisterationController extends Thread implements Initializable {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK, ButtonType.CANCEL);
                             alert.setResizable(true);
                             alert.setTitle("request to play");
-                            alert.setContentText(onlineUsers.get(1) + "a user wants to play with you");
+                            alert.setContentText(onlineUsers.get(2) +" a user wants to play with you");
                             alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                             Optional<ButtonType> result = alert.showAndWait();
                             if (result.get() == ButtonType.OK) {
@@ -265,6 +267,17 @@ public class RegisterationController extends Thread implements Initializable {
                                 stage.setScene(new Scene(root));
                                 stage.setResizable(false);
                                 stage.show();
+                                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                                    @Override
+                                    public void handle(WindowEvent event) {
+                                        try {
+                                            ps = new PrintStream(s.getOutputStream());
+                                            ps.println("logout" +"."+ user);
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                });
                             } catch (IOException ex) {
                                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                             }
@@ -332,51 +345,71 @@ public class RegisterationController extends Thread implements Initializable {
                         });
                     }
                 } else if (onlineUsers.get(0).equals("play") && onlineUsers.get(6).equals("gameends")) {
-                    Platform.runLater(() -> {
-//                        for (int i = 0; i < 9; i++) {
-//                            boardButtons.get(i).setDisable(false);
-////                            if (reply.startsWith("b")) {
-//                            System.out.println(boardButtons.get(i).getId());
-////                                System.out.println(msg[0]);
-//
-//                            if (boardButtons.get(i).getId().equals(onlineUsers.get(3))) {
-//                                boardButtons.get(i).setText(onlineUsers.get(4));
-//                                boardButtons.get(i).setOpacity(1);
-//                                xTurn = Boolean.parseBoolean(onlineUsers.get(5));
-////                                boardButtons.get(i).setText("esraa");
-//                                if (onlineUsers.get(4).equals("X")) {
-//                                    boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
-//
-//                                }
-//                                if (onlineUsers.get(4).equals("O")) {
-//                                    boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
-//                                }
-////                                    onlineBoard.editable =true;
-//
-//                            }
-//
-//                        }
 
-                        String path = "src/assets/fail.mp4";
-                        media = new Media(new File(path).toURI().toString());
-                        MediaPlayer mediaPlayer = new MediaPlayer(media);
-                        MediaView mediaView = new MediaView(mediaPlayer);
-                        mediaPlayer.setAutoPlay(true);
-                        Label winning = new Label("You loose :D");
-                        winning.setAlignment(Pos.CENTER);
-                        VBox content = new VBox(10, winning, mediaView);
-                        content.setAlignment(Pos.CENTER);
-                        Dialog d1 = new Dialog();
-                        d1.setResizable(true);
-                        d1.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-                        d1.getDialogPane().setContent(content);
-                        d1.getDialogPane().setMinHeight(500);
-                        d1.getDialogPane().setMinWidth(500);
+                    if (onlineUsers.get(2).equals(user)) {
+                        Platform.runLater(() -> {
+                            for (int i = 0; i < 9; i++) {
+                                boardButtons.get(i).setDisable(false);
+//                            if (reply.startsWith("b")) {
+                                System.out.println(boardButtons.get(i).getId());
+//                                System.out.println(msg[0]);
 
-                        d1.setOnShowing(e -> mediaPlayer.play());
-                        d1.setOnCloseRequest(e -> mediaPlayer.stop());
-                        d1.show();
-                    });
+                                if (boardButtons.get(i).getId().equals(onlineUsers.get(3))) {
+                                    boardButtons.get(i).setText(onlineUsers.get(4));
+                                    boardButtons.get(i).setOpacity(1);
+                                    xTurn = Boolean.parseBoolean(onlineUsers.get(5));
+                                    String path = "src/assets/fail.mp4";
+                                    media = new Media(new File(path).toURI().toString());
+                                    MediaPlayer mediaPlayer = new MediaPlayer(media);
+                                    MediaView mediaView = new MediaView(mediaPlayer);
+                                    mediaPlayer.setAutoPlay(true);
+                                    Label winning = new Label("You loose :D");
+                                    winning.setAlignment(Pos.CENTER);
+                                    VBox content = new VBox(10, winning, mediaView);
+                                    content.setAlignment(Pos.CENTER);
+                                    Dialog d1 = new Dialog();
+                                    d1.setResizable(true);
+                                    d1.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+                                    d1.getDialogPane().setContent(content);
+                                    d1.getDialogPane().setMinHeight(500);
+                                    d1.getDialogPane().setMinWidth(500);
+                                    d1.setOnShowing(e -> mediaPlayer.play());
+                                    d1.setOnCloseRequest(e -> mediaPlayer.stop());
+                                    d1.show();
+                                    if (onlineUsers.get(4).equals("X")) {
+                                        boardButtons.get(i).setStyle("-fx-text-fill: #FEFF49");
+
+                                    }
+                                    if (onlineUsers.get(4).equals("O")) {
+                                        boardButtons.get(i).setStyle("-fx-text-fill: #FF3E80");
+                                    }
+//                                    onlineBoard.editable =true;
+
+                                }
+
+                            }
+
+//                        String path = "src/assets/fail.mp4";
+//                        media = new Media(new File(path).toURI().toString());
+//                        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//                        MediaView mediaView = new MediaView(mediaPlayer);
+//                        mediaPlayer.setAutoPlay(true);
+//                        Label winning = new Label("You loose :D");
+//                        winning.setAlignment(Pos.CENTER);
+//                        VBox content = new VBox(10, winning, mediaView);
+//                        content.setAlignment(Pos.CENTER);
+//                        Dialog d1 = new Dialog();
+//                        d1.setResizable(true);
+//                        d1.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+//                        d1.getDialogPane().setContent(content);
+//                        d1.getDialogPane().setMinHeight(500);
+//                        d1.getDialogPane().setMinWidth(500);
+//
+//                        d1.setOnShowing(e -> mediaPlayer.play());
+//                        d1.setOnCloseRequest(e -> mediaPlayer.stop());
+//                        d1.show();
+                        });
+                    }
 
                 } else if (onlineUsers.get(0).equals("invalid")) {
                     Platform.runLater(() -> {
@@ -411,6 +444,7 @@ public class RegisterationController extends Thread implements Initializable {
                         });
 
                     }
+
 
                 } else if (onlineUsers.get(0).equals("playing")) {
                         System.out.println("playing");
@@ -420,12 +454,17 @@ public class RegisterationController extends Thread implements Initializable {
                                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "request", ButtonType.OK);
                                 alert.setResizable(true);
                                 alert.setTitle("respond");
-                                alert.setContentText(onlineUsers.get(2) + " is already playing");
+                                alert.setContentText("this user is already playing");
                                 alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
                                 Optional<ButtonType> result = alert.showAndWait();
                             });
                         }
+                    }else if (onlineUsers.get(0).equals("logout")) {
+                       Platform.runLater(() -> { 
+                        items.remove(onlineUsers.get(1));
+                       }); 
                     }
+
 
             } catch (IOException ex) {
 

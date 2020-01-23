@@ -85,7 +85,7 @@ public class FXMLDocumentController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
 
-                TextInputDialog dialog = new TextInputDialog("walter");
+                TextInputDialog dialog = new TextInputDialog("127.0.0.1");
                 dialog.setTitle("Text Input Dialog");
                 dialog.setHeaderText("Please enter server ip address");
                 dialog.setContentText("Server ip:");
