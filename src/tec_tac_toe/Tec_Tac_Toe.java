@@ -13,11 +13,11 @@ public class Tec_Tac_Toe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-//        Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
-        Parent root = new Home();
+        Parent root = FXMLLoader.load(getClass().getResource("home.fxml"));
+//        Parent root = new Home();
         Scene scene = new Scene(root); 
         scene.getStylesheets().add(getClass().getResource("/style/game.css").toExternalForm());
-         stage.setScene(scene);
+        stage.setScene(scene);
          stage.setResizable(false);
         stage.show();
     }

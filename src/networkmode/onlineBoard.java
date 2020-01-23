@@ -7,10 +7,17 @@ package networkmode;
  */
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +30,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -76,27 +84,29 @@ public class onlineBoard implements Initializable {
     @FXML
     private Label score2;
     @FXML
-    private ImageView newGame;
-    @FXML
     private ImageView backButton;
     @FXML
     private Label draw;
     @FXML
     private Label drawScore;
+    @FXML
+    private CheckBox record;
     String[][] character = {{"0", "0", "0"}, {"0", "0", "0"}, {"0", "0", "0"}};
     public static boolean xTurn = true;
     boolean GameEnds = false;
     boolean computer = true;
+	boolean recordGame=false;
     int counter = 0;
     Media media;
     String btnVal;
+	String Save;
     String id;
     String playerReceive;
 
 //    public static boolean editable;
     public static boolean loseing = false;
 
-
+    LinkedHashMap<String, String> lhm = new LinkedHashMap<>();
     public static ArrayList<Button> boardButtons = new ArrayList<Button>();
     EventHandler<ActionEvent> eventHandler = (ActionEvent e) -> {
         actionPerformed(e);
@@ -125,7 +135,7 @@ public class onlineBoard implements Initializable {
             });
         }
 
-        newGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+    /*    newGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 xTurn = true;
@@ -136,12 +146,18 @@ public class onlineBoard implements Initializable {
                     boardButtons.get(i).setOpacity(0);
                 }
             }
-        });
+        });*/
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 Stage stage = (Stage) backButton.getScene().getWindow();
                 stage.close();
+            }
+        });
+		record.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                recordGame=true;
             }
         });
 
@@ -188,6 +204,9 @@ public class onlineBoard implements Initializable {
             d1.setOnShowing(e -> mediaPlayer.play());
             d1.setOnCloseRequest(e -> mediaPlayer.stop());
             d1.show();
+			if(recordGame==true){
+               recordGame();
+             }
 
         }
         if (counter == 9 && GameEnds == false) {
@@ -209,6 +228,7 @@ public class onlineBoard implements Initializable {
                 clickedButton.setStyle("-fx-text-fill: #FEFF49");
                 clickedButton.setOpacity(1);
                 clickedButton.setText("X");
+				lhm.put(clickedButton.getId(),clickedButton.getText());
                 counter++;
                 winner();
                 xTurn = false;
@@ -220,6 +240,7 @@ public class onlineBoard implements Initializable {
                 clickedButton.setStyle("-fx-text-fill: #FF3E80");
                 clickedButton.setOpacity(1);
                 clickedButton.setText("O");
+				lhm.put(clickedButton.getId(),clickedButton.getText());
                 counter++;
                 winner();
                 xTurn = true;
@@ -257,4 +278,39 @@ public class onlineBoard implements Initializable {
         }
 
     }
+	private void recordGame(){
+            try{
+                FileOutputStream fos;
+                Path records = Paths.get("c:\\onRecords");
+                
+                Files.createDirectories(records);
+                int n = new File("c:\\onRecords").list().length+1;
+                String selectedFile = "c:\\onRecords\\game"+n+".txt";
+                Save="";
+                Save+=player1.getText()+","+score1.getText()+",";
+                Save+=player2.getText()+","+score2.getText()+",";
+                Save+="Draw"+","+drawScore.getText()+",";
+                
+                for(Map.Entry<String,String> entry:lhm.entrySet()){
+                    
+                    Save+=entry.getKey()+","+entry.getValue()+",";
+                }
+                
+                byte [] b=Save.getBytes();
+                try{
+                    fos =new FileOutputStream(selectedFile);
+                    fos.write(b);
+                    fos.flush();
+                    fos.close();
+                }catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }catch (IOException ex){
+                    ex.printStackTrace();
+                }
+                
+            }catch (IOException ex) {
+                Logger.getLogger(onlineBoard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } 
 }

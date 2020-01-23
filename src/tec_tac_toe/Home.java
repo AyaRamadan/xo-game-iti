@@ -165,18 +165,7 @@ public class Home extends AnchorPane {
 
             @Override
             public void handle(MouseEvent event) {
-//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-////            alert.setResizable(true);
-//                Label label1 = new Label("Please Enter server ip address");
-//                TextField textField = new TextField();
-//                HBox hb = new HBox();
-//                hb.getChildren().addAll(label1, textField);
-//                
-//                        
-//                alert.setTitle("Enter server ip");
-////                alert.setDialogPane(h);
-//                alert.getDialogPane().setMinHeight(100);
-//                alert.getDialogPane().setMinWidth(100);
+
                 TextInputDialog dialog = new TextInputDialog("127.0.0.1");
                 dialog.setTitle("Text Input Dialog");
                 dialog.setHeaderText("Please enter server ip address");
@@ -185,7 +174,7 @@ public class Home extends AnchorPane {
                 if (result.isPresent()) {
                     serverIp = result.get();
                     System.out.println("your ip is: " + result.get());
-//                    if (validate(serverIp) == true) {
+                    if (validate(serverIp) == true) {
                         try {
 
                             fxmlLoader = new FXMLLoader(getClass().getResource("/networkmode/Registeration.fxml"));
@@ -200,11 +189,12 @@ public class Home extends AnchorPane {
                             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
-//                    }
+                    }
                 }
 
             }
         });
+
         Exit.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override

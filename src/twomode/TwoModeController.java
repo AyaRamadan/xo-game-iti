@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,12 +18,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import singlemode.GameboardController;
 import tec_tac_toe.Home;
 
 /**
@@ -49,12 +52,16 @@ public class TwoModeController implements Initializable {
     Stage stage;
     public static String namex;
     public static String nameo;
+    @FXML
+    private CheckBox CheckBox;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ChangeView ch =new ChangeView();
+        
         Okbtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
             @Override
@@ -71,16 +78,9 @@ public class TwoModeController implements Initializable {
                 }
 
                 try {
+                    
+                    ch.changeScene("gameboard.fxml", event);
 
-                    fxmlLoader = new FXMLLoader(getClass().getResource("gameboard.fxml"));
-                    root1 = (Parent) fxmlLoader.load();
-                    stage = new Stage();
-                    stage.initModality(Modality.APPLICATION_MODAL);
-                    //stage.initStyle(StageStyle.UNDECORATED);
-                    stage.setTitle("Enter name");
-                    stage.setScene(new Scene(root1));
-                    stage.setResizable(false);
-                    stage.show();
                 } catch (IOException ex) {
                     Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -92,12 +92,22 @@ public class TwoModeController implements Initializable {
             @Override
             public void handle(MouseEvent event) {
 
-                Stage stage = (Stage) Cancelbtn.getScene().getWindow();
-                stage.close();
+                try {
+                    ch.changeScene("/tec_tac_toe/home.fxml", event);
+                } catch (IOException ex) {
+                    Logger.getLogger(TwoModeController.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
 
         });
+        CheckBox.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                boardController.record=true;
+            }
+        });
+        
 
     }
 

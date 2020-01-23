@@ -79,7 +79,7 @@
                 <Font name="Arial Rounded MT Bold" size="48.0" />
             </font>
         </Button>
-        <Label fx:id="player1" layoutX="90.0" layoutY="11.0" prefHeight="23.0" prefWidth="80.0" text="player1:" textFill="WHITE">
+        <Label fx:id="player1" layoutX="78.0" layoutY="11.0" prefHeight="23.0" prefWidth="80.0" text="player1 :" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
@@ -89,12 +89,12 @@
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
         </Label>
-        <Label fx:id="player2" layoutX="239.0" layoutY="11.0" prefHeight="22.0" prefWidth="80.0" text="player2:" textFill="WHITE">
+        <Label fx:id="player2" layoutX="239.0" layoutY="11.0" prefHeight="22.0" prefWidth="80.0" text="player2 :" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
         </Label>
-        <Label fx:id="score2" layoutX="328.0" layoutY="11.0" prefHeight="22.0" prefWidth="19.0" text="0" textFill="WHITE">
+        <Label fx:id="score2" layoutX="328.0" layoutY="11.0" prefHeight="22.0" prefWidth="24.0" text="0" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>

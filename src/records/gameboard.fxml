@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="singlemode.GameboardController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="records.boardController">
     <children>
         <ImageView fx:id="bg" fitHeight="500.0" fitWidth="600.0" pickOnBounds="true">
             <viewport>
@@ -79,7 +79,7 @@
                 <Font name="Arial Rounded MT Bold" size="48.0" />
             </font>
         </Button>
-        <Label fx:id="player1" layoutX="90.0" layoutY="11.0" prefHeight="23.0" prefWidth="80.0" text="player1:" textFill="WHITE">
+        <Label fx:id="player1" layoutX="78.0" layoutY="11.0" prefHeight="23.0" prefWidth="80.0" text="player1" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
@@ -89,24 +89,16 @@
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
         </Label>
-        <Label fx:id="player2" layoutX="239.0" layoutY="11.0" prefHeight="22.0" prefWidth="125.0" text="Computer :" textFill="WHITE">
+        <Label fx:id="player2" layoutX="212.0" layoutY="11.0" prefHeight="22.0" prefWidth="107.0" text="player2 :" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
         </Label>
-        <Label fx:id="score2" layoutX="345.0" layoutY="13.0" prefHeight="22.0" prefWidth="19.0" text="0" textFill="WHITE">
+        <Label fx:id="score2" layoutX="307.0" layoutY="13.0" prefHeight="22.0" prefWidth="24.0" text="0" textFill="WHITE">
             <font>
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
         </Label>
-        <ImageView fx:id="newGame" fitHeight="30.0" fitWidth="30.0" layoutX="388.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@/assets/refresh.png" />
-            </image>
-            <cursor>
-                <Cursor fx:constant="HAND" />
-            </cursor>
-        </ImageView>
         <ImageView fx:id="backButton" fitHeight="30.0" fitWidth="30.0" layoutX="157.0" layoutY="466.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@/assets/back.png" />
@@ -125,6 +117,11 @@
                 <Font name="Arial Rounded MT Bold" size="18.0" />
             </font>
         </Label>
+      <ImageView fx:id="playAgain" fitHeight="30.0" fitWidth="39.0" layoutX="429.0" layoutY="463.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/refresh.png" />
+         </image>
+      </ImageView>
     </children>
     <stylesheets>
         <URL value="@/style/game.css" />

@@ -11,36 +11,44 @@
    <children>
       <ImageView fx:id="Background" fitHeight="510.0" fitWidth="439.0" pickOnBounds="true">
          <image>
-            <Image url="@../assets/1.jpg" />
+            <Image url="@../assets/bg.jpg" />
          </image>
       </ImageView>
       <ImageView fx:id="Logo" fitHeight="113.0" fitWidth="126.0" layoutX="153.0" layoutY="21.0" pickOnBounds="true">
          <image>
-            <Image url="@../assets/2.jpg" />
+            <Image url="@../assets/logo.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="SinglePlayer" alignment="CENTER" layoutX="97.0" layoutY="163.0" mnemonicParsing="false" opacity="0.83" prefHeight="50.0" prefWidth="246.0" text="Single Player" textFill="#163a4d">
+      <Button fx:id="SinglePlayer" alignment="CENTER" layoutX="97.0" layoutY="163.0" mnemonicParsing="false" opacity="0.83" prefHeight="44.0" prefWidth="246.0" text="Single Player" textFill="#163a4d">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <font>
             <Font name="Castellar" size="22.0" />
          </font></Button>
-      <Button fx:id="TwoPlayers" layoutX="97.0" layoutY="240.0" lineSpacing="5.0" mnemonicParsing="false" opacity="0.83" prefHeight="50.0" prefWidth="246.0" text="Two Players" textFill="#163a4d">
+      <Button fx:id="TwoPlayers" layoutX="97.0" layoutY="223.0" lineSpacing="5.0" mnemonicParsing="false" opacity="0.83" prefHeight="31.0" prefWidth="246.0" text="Two Players" textFill="#163a4d">
          <font>
             <Font name="Castellar" size="22.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="OnlineGame" layoutX="97.0" layoutY="312.0" mnemonicParsing="false" opacity="0.83" prefHeight="50.0" prefWidth="246.0" text="Online Game" textFill="#163a4d">
+      <Button fx:id="OnlineGame" layoutX="97.0" layoutY="285.0" mnemonicParsing="false" opacity="0.83" prefHeight="29.0" prefWidth="246.0" text="Online Game" textFill="#163a4d">
          <font>
             <Font name="Castellar" size="22.0" />
          </font>
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="Exit" cancelButton="true" layoutX="97.0" layoutY="388.0" mnemonicParsing="false" opacity="0.83" prefHeight="50.0" prefWidth="246.0" text="Exit" textFill="#163a4d">
+      <Button fx:id="Exit" cancelButton="true" layoutX="156.0" layoutY="395.0" mnemonicParsing="false" opacity="0.83" prefHeight="44.0" prefWidth="126.0" text="Exit" textFill="#163a4d">
+         <font>
+            <Font name="Castellar" size="22.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button fx:id="Records" layoutX="101.0" layoutY="341.0" mnemonicParsing="false" opacity="0.83" prefHeight="44.0" prefWidth="238.0" text="Records" textFill="#163a4d">
          <font>
             <Font name="Castellar" size="22.0" />
          </font>

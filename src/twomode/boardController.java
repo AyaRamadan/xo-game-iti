@@ -6,9 +6,19 @@
 package twomode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -28,6 +38,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+import singlemode.GameboardController;
+import static singlemode.GameboardController.record;
 
 /**
  * FXML Controller class
@@ -78,19 +90,27 @@ public class boardController implements Initializable {
     boolean xTurn = true;
     boolean GameEnds = false;
     boolean computer = true;
+    public static boolean record;
     int counter = 0;
     Media media;
+    String Save;
+    LinkedHashMap<String, String> lhm = new LinkedHashMap<>();
     public ArrayList<Button> boardButtons = new ArrayList<Button>();
     EventHandler<ActionEvent> eventHandler = (ActionEvent e) -> {
         actionPerformed(e);
     };
+
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        ChangeView ch = new ChangeView();
         player1.setText(TwoModeController.namex);
         player2.setText(TwoModeController.nameo);
+
+
         boardButtons.add(button1);
         boardButtons.add(button2);
         boardButtons.add(button3);
@@ -100,16 +120,22 @@ public class boardController implements Initializable {
         boardButtons.add(button7);
         boardButtons.add(button8);
         boardButtons.add(button9);
+        
         for (int i = 0; i < 9; i++) {
             boardButtons.get(i).setText("");
             boardButtons.get(i).addEventHandler(ActionEvent.ACTION, e -> {
                 actionPerformed(e);
             });
         }
-
+       
         newGame.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                Save="";  
+                lhm.clear();
+                if(record==true){
+                    recordGame();
+                }
                 xTurn = true;
                 GameEnds = false;
                 counter = 0;
@@ -122,12 +148,28 @@ public class boardController implements Initializable {
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Stage stage = (Stage) backButton.getScene().getWindow();
-                stage.close();
+                try {
+                    ch.changeScene("/tec_tac_toe/home.fxml", event);
+//                Stage stage = (Stage) backButton.getScene().getWindow();
+//                stage.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(boardController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
+
     }
-    private void winner() {
+
+    private void winner(String s) {
+        if(s.equals("x")){
+         
+            s=TwoModeController.namex;
+        
+        }
+        else{
+              s=TwoModeController.nameo;
+        }
         String t00 = boardButtons.get(0).getText();
         String t01 = boardButtons.get(1).getText();
         String t02 = boardButtons.get(2).getText();
@@ -152,7 +194,8 @@ public class boardController implements Initializable {
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             MediaView mediaView = new MediaView(mediaPlayer);
             mediaPlayer.setAutoPlay(true);
-            Label winning = new Label("Congrats You won");
+            Label winning = new Label("Congratulations \""+ s +"\" You won");
+           
             winning.setAlignment(Pos.CENTER);
             VBox content = new VBox(10, winning, mediaView);
             content.setAlignment(Pos.CENTER);
@@ -166,7 +209,10 @@ public class boardController implements Initializable {
             d1.setOnShowing(e -> mediaPlayer.play());
             d1.setOnCloseRequest(e -> mediaPlayer.stop());
             d1.show();
-
+            if(record==true){
+            recordGame();
+        }
+        
         }
         if (counter == 9 && GameEnds == false) {
             drawScore.setText(Integer.valueOf(drawScore.getText()) + 1 + "");
@@ -174,28 +220,67 @@ public class boardController implements Initializable {
         if (GameEnds == true) {
             if (xTurn == true) {
                 score1.setText(Integer.valueOf(score1.getText()) + 1 + "");
+                
             } else {
                 score2.setText(Integer.valueOf(score2.getText()) + 1 + "");
+                
             }
         }
+         
     }
+
     private void actionPerformed(ActionEvent e) {
         Button clickedButton = (Button) e.getSource();
         if (xTurn == true && clickedButton.getText().equals("")&& GameEnds == false) {
             clickedButton.setStyle("-fx-text-fill: #FEFF49");
             clickedButton.setOpacity(1);
             clickedButton.setText("X");
+            lhm.put(clickedButton.getId(),clickedButton.getText());
             counter++;
-            winner();
+            winner("x");
             xTurn = false;
         } else if (xTurn == false && clickedButton.getText().equals("") && GameEnds == false) {
             clickedButton.setStyle("-fx-text-fill: #FF3E80");
             clickedButton.setOpacity(1);
             clickedButton.setText("O");
+            lhm.put(clickedButton.getId(), clickedButton.getText());
             counter++;
-            winner();
+            winner("o");
             xTurn = true;
         }
-        
     }
+   private void recordGame(){
+        FileOutputStream fos;
+        Path records = Paths.get("c:\\offRecords");
+        try {
+            Files.createDirectories(records);
+            int n = new File("c:\\offRecords").list().length+1;
+            String selectedFile = "c:\\offRecords\\game"+n+".txt";
+            Save="";
+            Save+=player1.getText()+","+score1.getText()+",";
+            Save+=player2.getText()+","+score2.getText()+",";
+            Save+="Draw"+","+drawScore.getText()+",";
+            
+            for(Map.Entry<String,String> entry:lhm.entrySet()){
+                
+                Save+=entry.getKey()+","+entry.getValue()+",";
+            }
+        
+            byte [] b=Save.getBytes();
+            try{
+                fos =new FileOutputStream(selectedFile);
+                fos.write(b);
+                fos.flush();
+                fos.close();
+            }catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }catch (IOException ex){
+                ex.printStackTrace();
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(GameboardController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }
