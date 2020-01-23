@@ -211,7 +211,7 @@ public class boardController implements Initializable {
             d1.show();
             if(record==true){
             recordGame();
-        }
+            }
         
         }
         if (counter == 9 && GameEnds == false) {

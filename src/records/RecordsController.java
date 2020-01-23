@@ -98,23 +98,17 @@ public class RecordsController implements Initializable {
                     JOptionPane.showMessageDialog(null, "Empty cell");
                 } else {
 
-                            try {
-                                f =new File("c:\\offRecords\\"+onRecord.getSelectionModel().getSelectedItem()+".txt");
-                                ch.changeScene("gameboard.fxml", event);
-//                                fxmlLoader = new FXMLLoader(getClass().getResource("gameboard.fxml"));
-//                                root1 = (Parent) fxmlLoader.load();
-//                                stage = new Stage();
-//                                stage.initModality(Modality.APPLICATION_MODAL);
-//                                stage.setTitle("Reecords");
-//                                stage.setScene(new Scene(root1));
-//                                stage.setResizable(false);
-//                                stage.show();
-//
-//                                
-                            } catch (IOException ex) {
-                                Logger.getLogger(RecordsController.class.getName()).log(Level.SEVERE, null, ex);
+                            
+                       try {
+                           f =new File("c:\\onRecords\\"+onRecord.getSelectionModel().getSelectedItem()+".txt");
+                           ch.changeScene("gameboard.fxml", event);
+                       } catch (IOException ex) {
+                           Logger.getLogger(RecordsController.class.getName()).log(Level.SEVERE, null, ex);
+                       }
                                 
-                            }
+                         
+                                
+                            
                 }
             }
         });
@@ -130,15 +124,6 @@ public class RecordsController implements Initializable {
                             try {
                                 f =new File("c:\\offRecords\\"+offRecord.getSelectionModel().getSelectedItem()+".txt");
                                 ch.changeScene("gameboard.fxml", event);
-//                                fxmlLoader = new FXMLLoader(getClass().getResource("gameboard.fxml"));
-//                                root1 = (Parent) fxmlLoader.load();
-//                                stage = new Stage();
-//                                stage.initModality(Modality.APPLICATION_MODAL);
-//                                stage.setTitle("Reecords");
-//                                stage.setScene(new Scene(root1));
-//                                stage.setResizable(false);
-//                                stage.show();
-
                                 
                             } catch (IOException ex) {
                                 Logger.getLogger(RecordsController.class.getName()).log(Level.SEVERE, null, ex);
