@@ -38,6 +38,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -99,6 +100,8 @@ public class RegisterationController extends Thread implements Initializable {
 
     public static ObservableList<String> items = FXCollections.observableArrayList();
     String receiving;
+    @FXML
+    private ImageView back;
 
     /**
      * Initializes the controller class.
@@ -107,6 +110,7 @@ public class RegisterationController extends Thread implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Thread th;
         th = new Thread(this);
+        ChangeView ch = new ChangeView();
 
 //        TextInputDialog dialog = new TextInputDialog("walter");
 //        dialog.setTitle("Text Input Dialog");
@@ -122,6 +126,17 @@ public class RegisterationController extends Thread implements Initializable {
         th.start();
         UserName.setText(null);
         Password.setText(null);
+        back.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+               
+                try {
+                    ch.changeScene("/tec_tac_toe/home.fxml", event);
+                } catch (IOException ex) {
+                    Logger.getLogger(RegisterationController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                }
+        });
         Go.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
